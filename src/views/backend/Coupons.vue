@@ -159,7 +159,7 @@
         </div>
       </div>
     </div>
-    <Pagination :pages="pagination"></Pagination>
+    <Pagination :pages="pagination" @update="getCoupons"></Pagination>
   </div>
 </template>
 
