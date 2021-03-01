@@ -20,16 +20,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item text-center">
-              <router-link to="admin/products" class="nav-link">產品列表</router-link>
+              <router-link
+              @click="closeNavBar" to="/admin/products" class="nav-link">產品列表</router-link>
             </li>
             <li class="nav-item text-center">
-              <router-link to="admin/coupons" class="nav-link">優惠券列表</router-link>
+              <router-link
+              @click="closeNavBar" to="/admin/coupons" class="nav-link">優惠券列表</router-link>
             </li>
             <li class="nav-item text-center">
-              <router-link to="admin/orders" class="nav-link">訂單列表</router-link>
+              <router-link
+              @click="closeNavBar" to="/admin/orders" class="nav-link">訂單列表</router-link>
             </li>
             <li class="nav-item text-center">
-              <router-link to="/"
+              <router-link @click="closeNavBar" to="/"
               class="nav-link">回前台頁面</router-link>
             </li>
           </ul>
@@ -45,5 +48,13 @@
 }
 </style>
 <script>
-export default {};
+import $ from 'jquery';
+
+export default {
+  methods: {
+    closeNavBar() {
+      $('#navbarNav').collapse('hide');
+    },
+  },
+};
 </script>

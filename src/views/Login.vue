@@ -46,8 +46,7 @@ export default {
       vm.$http.post(url, vm.user).then((res) => {
         vm.isLoading = false;
         if (res.data.success) {
-          const { token } = res.data.token;
-          const { expired } = res.data.expired;
+          const { token, expired } = res.data;
           document.cookie = `BeanToken=${token}; expires=${new Date(expired * 1000)};`;
           vm.$router.push('/admin/products');
         }

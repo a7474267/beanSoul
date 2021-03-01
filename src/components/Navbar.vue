@@ -46,15 +46,15 @@
             <ul class="navbar-nav text-center">
               <li class="nav-item">
                 <router-link class="nav-link border-bottom mt-3"
-                @click="closeNavBar" to="/">首頁</router-link>
+                to="/">首頁</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link border-bottom"
-                @click="closeNavBar" to="/about">關於我們</router-link>
+                to="/about">關於我們</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link border-bottom"
-                @click="closeNavBar" to="/products">好豆市集</router-link>
+                to="/products">好豆市集</router-link>
               </li>
             </ul>
           </div>
@@ -82,8 +82,8 @@
 import $ from 'jquery';
 
 export default {
-  methods: {
-    closeNavBar() {
+  watch: {
+    $route() {
       $('#navbarNav').collapse('hide');
     },
   },
