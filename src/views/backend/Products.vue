@@ -80,7 +80,7 @@
                   <label class="btn btn-info" for ="file">
                     <input id="file" @change="uploadPhoto"
                     style="display:none;" type="file" ref="files"/>
-                    <i class="fa fa-photo"></i> 上傳圖片
+                    <i class="fas fa-image"></i> 上傳圖片
                     <i class="fas fa-spinner fa-spin" v-if="uploadStatus"></i>
                   </label>
                 </div>
@@ -96,9 +96,15 @@
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="category">分類</label>
-                    <input type="text" class="form-control"
-                    id="category" placeholder="請輸入分類" v-model="tempProduct.category"/>
+                    <label for="category">分類</label><br>
+                    <select name="" id="category"
+                    v-model="tempProduct.category" class="w-100">
+                      <option disabled value="">選擇產品分類</option>
+                      <option value="新手入門">新手入門</option>
+                      <option value="新品嚴選">新品嚴選</option>
+                      <option value="水洗處理">水洗處理</option>
+                      <option value="日曬處理">日曬處理</option>
+                    </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">單位</label>
@@ -110,12 +116,13 @@
                   <div class="form-group col-md-6">
                     <label for="origin_price">原價</label>
                     <input type="number" class="form-control"
-                    id="origin_price" placeholder="請輸入原價" v-model="tempProduct.origin_price"/>
+                    id="origin_price" placeholder="請輸入原價"
+                    v-model.number="tempProduct.origin_price"/>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">售價</label>
                     <input type="number" class="form-control"
-                    id="price" placeholder="請輸入售價" v-model="tempProduct.price"/>
+                    id="price" placeholder="請輸入售價" v-model.number="tempProduct.price"/>
                   </div>
                 </div>
                 <hr />

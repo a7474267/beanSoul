@@ -6,7 +6,7 @@
                     <p class="mb-0">Bean Soul</p>
                     <p>管理員登入</p>
                 </div>
-                <form action="" @submit.prevent="logIn">
+                <form action="" @submit.prevent="logIn" @keydown.enter="logIn">
                   <div class="form-group mt-4">
                     <input type="email" class="form-control" id="exampleInputEmail1"
                     aria-describedby="emailHelp" placeholder="請輸入電子郵件地址"
@@ -19,7 +19,7 @@
                 </form>
                 <div class="d-flex justify-content-center mt-4">
                   <router-link to="/products" class="btn border-dark">返回賣場</router-link>
-                  <button type="button" class="btn btn-dark ml-3"
+                  <button type="submit" class="btn btn-dark ml-3"
                   @click="logIn" :disabled="isLoading">登入</button>
                 </div>
             </div>
