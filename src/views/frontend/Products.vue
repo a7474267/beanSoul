@@ -97,7 +97,7 @@
               <h4 class="card-title font-weight-bold text-danger">{{ item.title }}</h4>
               <p
                 class="card-text text-muted font-weight-bold"
-              >{{ item.description }}</p>
+              >{{ item.content.flavor }}</p>
               <div>
                 <del class="text-muted">原價：{{item.origin_price}}</del>
                 <p class="font-weight-bold text-danger h5">售價: {{ item.price }}</p>
@@ -145,6 +145,7 @@ export default {
       sortProducts: [],
       isLoading: false,
       productLoading: '',
+      carts: [],
     };
   },
   methods: {
@@ -183,20 +184,65 @@ export default {
     addToCart(id, quantity = 1) {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      const cart = {
+      let cart = {
         product_id: id,
         qty: quantity,
       };
+      const sameItem = vm.carts.filter((item) => item.product.id === id);
       vm.isLoading = true;
       vm.productLoading = id;
-      vm.$http.post(url, cart).then(() => {
+      if (sameItem.length > 0) {
+        const orderId = sameItem[0].id;
+        const originQty = sameItem[0].qty;
+        const newQty = originQty + 1;
+        cart = {
+          product_id: id,
+          qty: newQty,
+        };
+        vm.deleteOrder(orderId);
+        vm.$http.post(url, { data: cart })
+          .then(() => {
+            vm.isLoading = false;
+            vm.productLoading = '';
+            vm.$bus.$emit('alert',
+              '商品已成功加入購物車!',
+              'success');
+            vm.getCarts();
+          })
+          .catch((error) => {
+            vm.isLoading = false;
+            vm.productLoading = '';
+            vm.$bus.$emit('alert', `加入失敗!${error.response.data.errors}`, 'danger');
+          });
+      } else {
+        vm.$http.post(url, { data: cart }).then(() => {
+          vm.isLoading = false;
+          vm.productLoading = '';
+          vm.$bus.$emit('get-cart');
+          vm.getCarts();
+        });
+      }
+    },
+    getCarts() {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      vm.$http.get(url).then((res) => {
+        vm.carts = res.data.data.carts;
+      });
+    },
+    deleteOrder(id) {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+      vm.isLoading = true;
+      vm.$http.delete(url).then(() => {
         vm.isLoading = false;
-        vm.productLoading = '';
+        vm.getCarts();
       });
     },
   },
   created() {
     this.getProducts();
+    this.getCarts();
   },
 };
 </script>

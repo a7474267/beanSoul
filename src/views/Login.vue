@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { userLogin } from '../api';
+
 export default {
   data() {
     return {
@@ -40,10 +42,9 @@ export default {
   },
   methods: {
     logIn() {
-      const url = `${process.env.VUE_APP_APIPATH}/admin/signin`;
       const vm = this;
       vm.isLoading = true;
-      vm.$http.post(url, vm.user).then((res) => {
+      userLogin(vm.user).then((res) => {
         vm.isLoading = false;
         if (res.data.success) {
           const { token, expired } = res.data;

@@ -8,7 +8,8 @@
         <span class="d-md-none navbar-nav ml-auto">
           <router-link class="nav-link" to="/cart">
             <i class="fas fa-md fa-shopping-cart fa-2x"></i>
-            <span class="badge badge-pill badge-warm cart-logo-position">1</span>
+            <span class="badge badge-pill badge-warm cart-logo-position"
+            v-if="carts.length">{{ carts.length }}</span>
           </router-link>
         </span>
         <button
@@ -37,7 +38,8 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/cart">
                   <i class="fas fa-md fa-shopping-cart fa-2x"></i>
-                  <span class="badge badge-pill badge-warm cart-logo-position">1</span>
+                  <span class="badge badge-pill badge-warm cart-logo-position">
+                    {{ carts.length }}</span>
                 </router-link>
               </li>
             </ul>
@@ -82,10 +84,31 @@
 import $ from 'jquery';
 
 export default {
+  data() {
+    return {
+      carts: [],
+    };
+  },
   watch: {
     $route() {
       $('#navbarNav').collapse('hide');
     },
+  },
+  methods: {
+    getCarts() {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      vm.$http.get(url).then((res) => {
+        vm.carts = res.data.data.carts;
+      });
+    },
+  },
+  created() {
+    const vm = this;
+    vm.getCarts();
+    vm.$bus.$on('get-cart', () => {
+      vm.getCarts();
+    });
   },
 };
 </script>

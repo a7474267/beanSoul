@@ -107,9 +107,12 @@
                     </select>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="price">單位</label>
-                    <input type="unit" class="form-control"
-                    id="unit" placeholder="請輸入單位" v-model="tempProduct.unit"/>
+                    <label for="unit">單位</label><br>
+                    <select name="" id="unit" v-model="tempProduct.unit"
+                    class="w-100">
+                      <option value="半磅">半磅</option>
+                      <option value="一磅">一磅</option>
+                    </select>
                   </div>
                 </div>
                 <div class="form-row">
@@ -127,15 +130,42 @@
                 </div>
                 <hr />
                 <div class="form-group">
+                  <label for="flavor">產品風味</label>
+                  <textarea type="text" class="form-control"
+                  id="flavor" placeholder="請輸入產品風味"
+                  v-model="tempProduct.content.flavor"></textarea>
+                </div>
+                <div class="form-group">
                   <label for="description">產品描述</label>
                   <textarea type="text" class="form-control"
                   id="description" placeholder="請輸入產品描述"
                   v-model="tempProduct.description"></textarea>
                 </div>
-                <div class="form-group">
-                  <label for="content">說明內容</label>
-                  <textarea type="text" class="form-control"
-                  id="content" placeholder="請輸入產品說明內容" v-model="tempProduct.content"></textarea>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="country">國家</label>
+                    <input type="text" class="form-control"
+                    id="country" placeholder="請輸入國家"
+                    v-model="tempProduct.content.country"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="origin">產區</label>
+                    <input type="text" class="form-control"
+                    id="origin" placeholder="請輸入產區"
+                    v-model="tempProduct.content.origin"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="roast">焙度</label>
+                    <input type="text" class="form-control"
+                    id="roast" placeholder="請輸入焙度"
+                    v-model="tempProduct.content.roast"/>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="level">等級</label>
+                    <input type="text" class="form-control"
+                    id="level" placeholder="請輸入等級"
+                    v-model="tempProduct.content.level"/>
+                  </div>
                 </div>
                 <div class="form-group">
                   <div class="form-check">
@@ -193,6 +223,7 @@
 <script>
 import $ from 'jquery';
 import Pagination from '@/components/Pagination.vue';
+// import { beAddProduct, beEditProduct } from '../../api';
 
 export default {
   data() {
@@ -200,6 +231,7 @@ export default {
       products: [],
       tempProduct: {
         imageUrl: '',
+        content: {},
       },
       pagination: {},
       isLoading: false,
@@ -250,6 +282,7 @@ export default {
       if (isNew) {
         vm.tempProduct = {
           imageUrl: '',
+          content: {},
         };
         vm.isNew = true;
       } else {
@@ -259,6 +292,19 @@ export default {
     },
     updateProduct() {
       const vm = this;
+      // if (!vm.isNew) {
+      //   const data = { data: vm.tempProduct };
+      //   beEditProduct(data, vm.tempProduct.id).then(() => {
+      //     $('#productModal').modal('hide');
+      //     vm.getProducts();
+      //   });
+      // } else {
+      //   const data = { data: vm.tempProduct };
+      //   beAddProduct(data).then((res) => {
+      //     $('#productModal').modal('hide');
+      //     vm.getProducts();
+      //   });
+      // }
       let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       let httpMethod = 'post';
       if (!vm.isNew) {

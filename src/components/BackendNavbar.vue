@@ -35,6 +35,9 @@
               <router-link to="/"
               class="nav-link">回前台頁面</router-link>
             </li>
+            <li class="nav-item text-center">
+              <a class="nav-link btn" @click.prevent="logOut">登出</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -49,11 +52,22 @@
 </style>
 <script>
 import $ from 'jquery';
+import { userLogout } from '../api';
 
 export default {
   watch: {
     $route() {
       $('#navbarNav').collapse('hide');
+    },
+  },
+  methods: {
+    logOut() {
+      const vm = this;
+      userLogout().then((res) => {
+        if (res.data.success) {
+          vm.$router.push('/');
+        }
+      });
     },
   },
 };

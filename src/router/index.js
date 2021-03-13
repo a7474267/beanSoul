@@ -6,6 +6,10 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: '*',
+    redirect: '/',
+  },
+  {
     path: '/',
     component: Layout,
     children: [
@@ -52,14 +56,17 @@ const routes = [
       {
         path: 'products',
         component: () => import('../views/backend/Products.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: 'orders',
         component: () => import('../views/backend/Orders.vue'),
+        meta: { requiresAuth: true },
       },
       {
         path: 'coupons',
         component: () => import('../views/backend/Coupons.vue'),
+        meta: { requiresAuth: true },
       },
     ],
   },
