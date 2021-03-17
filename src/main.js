@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
@@ -17,7 +18,9 @@ import App from './App.vue';
 import router from './router';
 import './bus';
 import { userLoginCheck } from './api';
+import store from './store';
 
+Vue.use(Vuex);
 Vue.use(VueLodash, { name: 'custom', lodash });
 // add all rules of Vee Validate
 Object.keys(rules).forEach((rule) => {
@@ -40,6 +43,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount('#app');
 
