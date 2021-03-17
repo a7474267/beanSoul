@@ -194,39 +194,27 @@
 }
 </style>
 <script>
-import _ from 'lodash';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
     return {
-      isLoading: false,
       qtyChanging: '',
-      carts: [],
       cartTotal: 0,
     };
   },
+  computed: {
+    ...mapState(['isLoading', 'carts']),
+  },
   methods: {
-    getCarts() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(url).then((res) => {
-        vm.carts = res.data.data.carts;
-        vm.carts.sort((a, b) => a.qty - b.qty);
-        vm.cartTotal = res.data.data.total;
-      });
-    },
-    debounce() {
-      const vm = this;
-      const lodashFunc = _.debounce(vm.updateCart, 3000);
-      lodashFunc();
-    },
+    ...mapActions(['getCarts', 'deleteOrder']),
     updateCart(productID, qty, orderID) {
       const vm = this;
       vm.qtyChanging = productID;
-      vm.isLoading = true;
+      vm.$store.dispatch('updateLoading', true);
       Promise.all([vm.deleteOrder(orderID), vm.addToCart(productID, qty)])
         .then(() => {
-          vm.isLoading = false;
+          vm.$store.dispatch('updateLoading', false);
           vm.qtyChanging = '';
           vm.getCarts();
         });
@@ -234,22 +222,11 @@ export default {
     addToCart(id, qty) {
       const vm = this;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.isLoading = true;
       const cart = {
         product_id: id,
         qty,
       };
       vm.$http.post(url, { data: cart });
-    },
-    deleteOrder(id) {
-      const vm = this;
-      vm.isLoading = true;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      vm.$http.delete(url).then(() => {
-        vm.isLoading = false;
-        vm.$bus.$emit('get-cart');
-        vm.getCarts();
-      });
     },
   },
   created() {

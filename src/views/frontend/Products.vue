@@ -20,7 +20,19 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-12">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <div class="input-group">
+            <input class="form-control" type="text" v-model.trim="searchText"
+                  placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button"
+                    @click="searchText = ''">
+                    <i class="fa fa-times"></i>
+                </button>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-8">
           <ul
             class="nav nav-pills justify-content-center font-weight-bold"
             id="pills-tab"
@@ -35,10 +47,10 @@
                 role="tab"
                 aria-controls="pills-home"
                 aria-selected="true"
-                @click.prevent="filterProduct('全部品項')"
+                @click.prevent="searchText = ''"
               >全部品項</a>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item" role="presentation" v-for="item in categories" :key="item">
               <a
                 class="nav-link"
                 id="pills-profile-tab"
@@ -47,44 +59,8 @@
                 role="tab"
                 aria-controls="pills-profile"
                 aria-selected="false"
-                @click.prevent="filterProduct('新手入門')"
-              >新手入門</a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="pills-contact-tab"
-                data-toggle="pill"
-                href="#pills-contact"
-                role="tab"
-                aria-controls="pills-contact"
-                aria-selected="false"
-                @click.prevent="filterProduct('新品嚴選')"
-              >新品嚴選</a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="pills-contact-tab"
-                data-toggle="pill"
-                href="#pills-contact"
-                role="tab"
-                aria-controls="pills-contact"
-                aria-selected="false"
-                @click.prevent="filterProduct('日曬處理')"
-              >日曬處理</a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a
-                class="nav-link"
-                id="pills-contact-tab"
-                data-toggle="pill"
-                href="#pills-contact"
-                role="tab"
-                aria-controls="pills-contact"
-                aria-selected="false"
-                @click.prevent="filterProduct('水洗處理')"
-              >水洗處理</a>
+                @click.prevent="searchText = item"
+              >{{ item }}</a>
             </li>
           </ul>
         </div>
@@ -138,106 +114,37 @@
 }
 </style>
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
-      products: [],
-      sortProducts: [],
-      isLoading: false,
-      productLoading: '',
-      carts: [],
+      searchText: '',
     };
   },
-  methods: {
-    getProducts() {
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
+  computed: {
+    ...mapState(['isLoading', 'products', 'carts', 'productLoading', 'categories']),
+    sortProducts() {
       const vm = this;
-      vm.isLoading = true;
-      vm.$http.get(url).then((res) => {
-        vm.isLoading = false;
-        vm.products = res.data.products;
-        vm.sortProducts = [...vm.products];
-      });
-    },
-    filterProduct(category) {
-      const vm = this;
-      switch (category) {
-        case ('全部品項'):
-          vm.sortProducts = [...vm.products];
-          break;
-        case ('新手入門'):
-          vm.sortProducts = [...vm.products].filter((item) => item.category === '新手入門');
-          break;
-        case ('新品嚴選'):
-          vm.sortProducts = [...vm.products].filter((item) => item.category === '新品嚴選');
-          break;
-        case ('日曬處理'):
-          vm.sortProducts = [...vm.products].filter((item) => item.category === '日曬處理');
-          break;
-        case ('水洗處理'):
-          vm.sortProducts = [...vm.products].filter((item) => item.category === '水洗處理');
-          break;
-        default:
-          break;
-      }
-    },
-    addToCart(id, quantity = 1) {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let cart = {
-        product_id: id,
-        qty: quantity,
-      };
-      const sameItem = vm.carts.filter((item) => item.product.id === id);
-      vm.isLoading = true;
-      vm.productLoading = id;
-      if (sameItem.length > 0) {
-        const orderId = sameItem[0].id;
-        const originQty = sameItem[0].qty;
-        const newQty = originQty + 1;
-        cart = {
-          product_id: id,
-          qty: newQty,
-        };
-        vm.deleteOrder(orderId);
-        vm.$http.post(url, { data: cart })
-          .then(() => {
-            vm.isLoading = false;
-            vm.productLoading = '';
-            vm.$bus.$emit('alert',
-              '商品已成功加入購物車!',
-              'success');
-            vm.getCarts();
-          })
-          .catch((error) => {
-            vm.isLoading = false;
-            vm.productLoading = '';
-            vm.$bus.$emit('alert', `加入失敗!${error.response.data.errors}`, 'danger');
+      if (vm.searchText) {
+        if (vm.categories.includes(vm.searchText)) {
+          return vm.products.filter((item) => {
+            const data = item.category.toLowerCase().includes(vm.searchText.toLowerCase());
+            return data;
           });
-      } else {
-        vm.$http.post(url, { data: cart }).then(() => {
-          vm.isLoading = false;
-          vm.productLoading = '';
-          vm.$bus.$emit('get-cart');
-          vm.getCarts();
+        }
+        return vm.products.filter((item) => {
+          const data = item.title.toLowerCase().includes(vm.searchText.toLowerCase());
+          return data;
         });
       }
+      return vm.products;
     },
-    getCarts() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(url).then((res) => {
-        vm.carts = res.data.data.carts;
-      });
-    },
-    deleteOrder(id) {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
-      vm.isLoading = true;
-      vm.$http.delete(url).then(() => {
-        vm.isLoading = false;
-        vm.getCarts();
-      });
+  },
+  methods: {
+    ...mapActions(['getProducts', 'getCarts', 'deleteOrder']),
+    addToCart(id, quantity = 1) {
+      this.$store.dispatch('addToCart', { id, quantity });
     },
   },
   created() {

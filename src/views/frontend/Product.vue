@@ -89,6 +89,7 @@ select{
 <script>
 import ProductNotice from '@/components/ProductNotice.vue';
 import RelatedProducts from '@/components/RelatedProducts.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   components: {
@@ -97,74 +98,30 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       product: {
         content: {},
       },
-      carts: [],
       qty: 1,
-      productLoading: '',
     };
   },
+  computed: {
+    ...mapState(['carts', 'isLoading']),
+  },
   methods: {
+    ...mapActions(['getCarts', 'deleteOrder', 'productLoading']),
     getProduct() {
       const vm = this;
-      this.isLoading = true;
+      vm.$store.dispatch('updateLoading', true);
       const { id } = this.$route.params;
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
       vm.$http.get(url).then((res) => {
         vm.product = res.data.product;
-        vm.isLoading = false;
+        vm.$store.dispatch('updateLoading', false);
       });
     },
-    getCarts() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(url).then((res) => {
-        vm.carts = res.data.data.carts;
-      });
-    },
-    addToCart(productID) {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      let cart = {
-        product_id: productID,
-        qty: vm.qty,
-      };
-      const sameItem = vm.carts.filter((item) => item.product.id === productID);
-      vm.isLoading = true;
-      vm.productLoading = productID;
-      if (sameItem.length > 0) {
-        const orderId = sameItem[0].id;
-        const originQty = sameItem[0].qty;
-        const newQty = originQty + vm.qty;
-        cart = {
-          product_id: productID,
-          qty: newQty,
-        };
-        vm.deleteOrder(orderId);
-        vm.$http.post(url, { data: cart }).then(() => {
-          vm.isLoading = false;
-          vm.productLoading = '';
-          vm.getCarts();
-        });
-      } else {
-        vm.$http.post(url, { data: cart }).then(() => {
-          vm.isLoading = false;
-          vm.productLoading = '';
-          vm.$bus.$emit('get-cart');
-          vm.getCarts();
-        });
-      }
-    },
-    deleteOrder(orderID) {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${orderID}`;
-      vm.isLoading = true;
-      vm.$http.delete(url).then(() => {
-        vm.isLoading = false;
-        vm.getCarts();
-      });
+    addToCart(id) {
+      const quantity = this.qty;
+      this.$store.dispatch('addToCart', { id, quantity });
     },
   },
   created() {

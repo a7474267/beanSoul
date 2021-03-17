@@ -82,12 +82,15 @@
 
 <script>
 import $ from 'jquery';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   data() {
     return {
-      carts: [],
     };
+  },
+  computed: {
+    ...mapState(['carts']),
   },
   watch: {
     $route() {
@@ -95,20 +98,11 @@ export default {
     },
   },
   methods: {
-    getCarts() {
-      const vm = this;
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
-      vm.$http.get(url).then((res) => {
-        vm.carts = res.data.data.carts;
-      });
-    },
+    ...mapActions(['getCarts']),
   },
   created() {
     const vm = this;
     vm.getCarts();
-    vm.$bus.$on('get-cart', () => {
-      vm.getCarts();
-    });
   },
 };
 </script>

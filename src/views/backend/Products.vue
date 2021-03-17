@@ -410,20 +410,6 @@ export default {
     },
     updateProduct() {
       const vm = this;
-      // if (!vm.isNew) {
-      //   const data = { data: vm.tempProduct };
-      //   beEditProduct(data, vm.tempProduct.id).then(() => {
-      //     $('#productModal').modal('hide');
-      //     vm.getProducts();
-      //   });
-      // } else {
-      //   const data = { data: vm.tempProduct };
-      //   beAddProduct(data).then((res) => {
-      //     console.log(res);
-      //     $('#productModal').modal('hide');
-      //     vm.getProducts();
-      //   });
-      // }
       let url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
       let httpMethod = 'post';
       if (!vm.isNew) {
