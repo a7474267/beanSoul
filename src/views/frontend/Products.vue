@@ -80,8 +80,8 @@
               </div>
             </div>
             <div class="card-footer">
-              <div class="d-flex justify-content-between">
-                <router-link class="btn btn-outline-success font-weight-bold"
+              <div class="d-flex flex-column flex-lg-row justify-content-between">
+                <router-link class="btn btn-outline-success font-weight-bold mb-2 mb-lg-0"
                 :to="`/product/${item.id}`">瞭解更多
                 </router-link>
                 <button class="btn btn-outline-danger font-weight-bold"

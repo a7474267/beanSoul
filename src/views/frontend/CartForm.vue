@@ -169,7 +169,7 @@
                 <div class="d-flex justify-content-between">
                     <h3 class="font-weight-bold">總金額</h3>
                     <h3 v-if="coupon.success">{{ coupon.data.final_total }}</h3>
-                    <h3 v-else>{{ cartTotal + 170 }}</h3>
+                    <h3 v-else>{{ cartTotal }}</h3>
                 </div>
             </div>
             <div v-else>

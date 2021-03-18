@@ -155,7 +155,8 @@
           <!-- 繼續選購/下一步 -->
           <div class="row justify-content-between mt-4">
             <div class="col-md-2">
-              <router-link class="btn btn-outline-dark font-weight-bold mb-2 mb-md-0 w-100"
+              <router-link class="btn btn-outline-dark font-weight-bold mb-2 mb-md-0 w-100
+              animate__animated animate__rubberBand animate__infinite"
             to="/products"
             type="button">繼續選購</router-link>
             </div>
@@ -200,11 +201,10 @@ export default {
   data() {
     return {
       qtyChanging: '',
-      cartTotal: 0,
     };
   },
   computed: {
-    ...mapState(['isLoading', 'carts']),
+    ...mapState(['isLoading', 'carts', 'cartTotal']),
   },
   methods: {
     ...mapActions(['getCarts', 'deleteOrder']),

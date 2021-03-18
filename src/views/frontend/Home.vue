@@ -13,7 +13,9 @@
                 挑豆子的事，就交給我們!
                 <br />
               </h2>
-              <router-link class="btn btn-outline-light mt-4" to="/products">好豆市集</router-link>
+              <router-link class="btn btn-outline-light mt-4
+              animate__animated animate__bounce animate__infinite"
+              to="/products">好豆市集</router-link>
             </div>
           </div>
         </div>
@@ -22,27 +24,33 @@
     <div class="container mt-4">
       <div class="row">
         <div class="col-md-5 d-flex flex-column align-items-center justify-content-center">
-          <h2 class="text-dark text-center font-weight-bold d-md-none d-lg-block mt-3 mt-md-0">
+          <h2 class="text-dark text-center font-weight-bold d-md-none d-lg-block mt-3
+          mt-md-0 animate__animated animate__bounce animate__infinite">
             關於我們
             <br />
             <span>Bean Soul</span>
           </h2>
           <p></p>
-          <h4 class="text-dark text-center font-weight-bold d-none d-md-block d-lg-none">
+          <h4 class="text-dark text-center font-weight-bold
+          d-none d-md-block d-lg-none">
             關於我們
             <br />
             <span>Bean Soul</span>
           </h4>
-          <p class="font-weight-bold">
+          <p class="font-weight-bold" data-aos="fade-left"
+          data-aos-duration="2000">
             我們認為精品咖啡可以專業、但應該不要艱澀
             <br />我們認為精品咖啡可以高級、但應該少些高冷
           </p>
-          <p class="font-weight-bold">
+          <p class="font-weight-bold" data-aos="flip-right"
+          data-aos-duration="2000"
+          data-aos-delay="2000">
             在精品咖啡普及化的浪潮中，
             <br />Bean Soul希望帶著的「新手友善」思維，
             <br />成為大家認識精品咖啡的最佳領航員 (握拳)
           </p>
-          <p class="font-weight-bold">
+          <p class="font-weight-bold" data-aos="flip-up"
+          data-aos-duration="2000">
             我們堅持 24 小時烘焙後出貨的「新鮮」，
             <br />而在圖案上，同樣以咖啡豆為核心，
             <br />但改用簡單而有力的線條，
@@ -50,10 +58,12 @@
           </p>
           <router-link class="btn btn-primary mt-3" to="/about">了解更多</router-link>
         </div>
-        <div class="col-md-3 d-none d-md-block pr-0">
+        <div class="col-md-3 d-none d-md-block pr-0" data-aos="fade-down"
+        data-aos-duration="2000">
           <img src="img/john-forson-WWzDPKot6nQ-unsplash.jpg" alt class="object-fit height-about" />
         </div>
-        <div class="col-md-4 d-none d-md-block">
+        <div class="col-md-4 d-none d-md-block" data-aos="fade-up"
+        data-aos-duration="2000">
           <img src="img/mike-marquez-2anddAkcE24-unsplash.jpg" alt
           class="object-fit height-about" />
         </div>
@@ -64,10 +74,13 @@
         <div class="col-md-8">
           <div
             class="bg-style d-none d-md-block h-100"
+            data-aos="fade-left"
+            data-aos-duration="2000"
             style="background-image:url(img/gregory-hayes-Jmc0PORTQ-A-unsplash.jpg)"
           ></div>
           <div
-            class="bg-style d-md-none bg-height-s"
+            class="bg-style d-md-none bg-height-s" data-aos="fade-left"
+            data-aos-duration="2000" data-aos-delay="2000"
             style="background-image:url(img/gregory-hayes-Jmc0PORTQ-A-unsplash.jpg)"
           ></div>
         </div>
@@ -84,6 +97,8 @@
         <div class="col-md-4">
           <div
             class="bg-style d-none d-md-block h-100"
+            data-aos="fade-left"
+            data-aos-duration="2000"
             style="background-image:url(img/anastasiia-chepinska-lcfH0p6emhw-unsplash.jpg)"
           ></div>
           <div
@@ -102,6 +117,8 @@
         <div class="col-md-4 d-none d-md-block">
           <div
             class="bg-style d-none d-md-block h-100"
+            data-aos="fade-left"
+            data-aos-duration="2000"
             style="background-image:url(img/tim-mossholder-YC6RVdoTtIk-unsplash.jpg)"
           ></div>
           <div
@@ -126,6 +143,8 @@
         <div class="col-md-8">
           <div
             class="bg-style h-100 d-none d-md-block"
+            data-aos="fade-right"
+            data-aos-duration="2000"
             style="background-image:url(img/brent-gorwin-fltAsDcT2k0-unsplash.jpg)"
           ></div>
           <div
@@ -156,7 +175,7 @@
           <swiper class="swiper" :options="swiperOption">
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Joachim Molesworth.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">南投市 李小姐</h5>
@@ -168,7 +187,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Desmond.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">台中市 劉先生</h5>
@@ -178,7 +197,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Sin Azucar.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">南投市 王小姐</h5>
@@ -188,7 +207,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Snake Harrison.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">北投 陳大哥</h5>
@@ -198,7 +217,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Maggot.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">雲林市 陳小姐</h5>
@@ -208,7 +227,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Sam Solo.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">新竹市 李小姐</h5>
@@ -218,7 +237,7 @@
             </swiper-slide>
             <swiper-slide>
               <div class="d-flex flex-column align-items-center">
-                <img class="bg-style mr-3 img-fluid rounded-circle"
+                <img class="bg-style img-fluid rounded-circle"
                 src="img/Multiavatar-Orbit Escape.png" alt="">
                 <div>
                   <h5 class="mb-0 text-silver font-weight-bold">嘉義市 鄭先生</h5>

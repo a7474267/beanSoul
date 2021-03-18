@@ -11,6 +11,7 @@ export default new Vuex.Store({
     products: [],
     carts: [],
     categories: [],
+    cartTotal: 0,
   },
   actions: {
     updateLoading(context, payload) {
@@ -32,6 +33,7 @@ export default new Vuex.Store({
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
       axios.get(url).then((res) => {
         context.commit('CARTS', res.data.data.carts);
+        context.commit('CARTSTOTAL', res.data.data.carts);
       });
     },
     addToCart(context, { id, quantity }) {
@@ -87,7 +89,7 @@ export default new Vuex.Store({
       state.products = payload;
     },
     CARTS(state, payload) {
-      state.carts = payload;
+      state.carts = payload.sort((a, b) => a.qty - b.qty);
     },
     PRODUCTLOADING(state, payload) {
       state.productLoading = payload;
@@ -96,6 +98,9 @@ export default new Vuex.Store({
       const categories = new Set();
       state.products.forEach((item) => { categories.add(item.category); });
       state.categories = Array.from(categories);
+    },
+    CARTSTOTAL(state, payload) {
+      state.cartTotal = payload.reduce((accumulator, item) => (accumulator + item.total), 0);
     },
   },
 });

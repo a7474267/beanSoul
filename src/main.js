@@ -14,15 +14,22 @@ import * as rules from 'vee-validate/dist/rules';
 import 'bootstrap';
 import VueLodash from 'vue-lodash';
 import lodash from 'lodash';
+import animated from 'animate.css';
+import AOS from 'aos';
+import '../node_modules/aos/dist/aos.css';
 import App from './App.vue';
 import router from './router';
 import './bus';
 import { userLoginCheck } from './api';
 import store from './store';
 
+Vue.use(animated);
+Vue.use(AOS);
 Vue.use(Vuex);
 Vue.use(VueLodash, { name: 'custom', lodash });
 // add all rules of Vee Validate
+AOS.init();
+
 Object.keys(rules).forEach((rule) => {
   extend(rule, rules[rule]);
 });
